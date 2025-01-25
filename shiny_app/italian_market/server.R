@@ -1,12 +1,48 @@
 function(input, output, session) {
+  
+  plot_data <- reactive({
+    
+    plot_data <-  market_df
+    
+    if (input$item != 'All'){
+      plot_data <- plot_data |> 
+        filter(item == input$item)
+    }
+    return(plot_data)
+  })
+  
   output$food <- renderPlot({
-    market_df |> 
-      filter(item == input$item,
+    plot_data() |> 
+      filter(
              date >= input$dates[1],
              date <= input$dates[2]) |> 
       group_by(transaction_id) |> 
       ggplot(aes(gross_sales)) +
       geom_histogram()
   })
+  output$linear <- renderPlot({
+    plot_data() |> 
+      filter(qty > 0) |>
+      filter(
+             date >= input$dates[1],
+             date <= input$dates[2]) |> 
+      group_by(item) |> 
+      ggplot(aes(x=date, y=gross_sales, color = item)) +
+      geom_point() +
+      geom_smooth(method = 'lm', se = FALSE)
+    
+  })
+  
+  output$card <- renderPlot({
+    plot_data() |> 
+      filter(date >= input$dates[1],
+             date <= input$dates[2]) |> 
+      group_by(card_brand) |> 
+      summarize(`gross revenue` = sum(gross_sales)) |> 
+      ggplot(aes(x=card_brand, y=`gross revenue`)) +
+      geom_col()
+    
+  })
+  
 }
 

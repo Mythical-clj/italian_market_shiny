@@ -5,14 +5,17 @@ fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("item", "Choose a food:",
-                  choices = unique(market_df$item)),
+                  choices = c('All', unique(market_df$item))),
       dateRangeInput("dates", "Choose a date range:",
                      start = "2024-01-01",
                      end = "2024-12-31")
     ),
     mainPanel(
       tabsetPanel(
-        tabPanel('Food sales by date', plotOutput("food"))
+        tabPanel('Food sales by date', plotOutput("food"),
+                 plotOutput('linear')
+        ),
+        tabPanel('Card Payments', plotOutput('card'))
       )
     )
   )
