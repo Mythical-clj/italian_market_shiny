@@ -2,7 +2,7 @@ function(input, output, session) {
   
   plot_data <- reactive({
     
-    plot_data <-  market_df
+    plot_data <-  full_data
     
     if (input$item != 'All'){
       plot_data <- plot_data |> 
@@ -17,7 +17,7 @@ function(input, output, session) {
              date >= input$dates[1],
              date <= input$dates[2]) |> 
       group_by(transaction_id) |> 
-      ggplot(aes(gross_sales)) +
+      ggplot(aes(total_sales)) +
       geom_histogram()
   })
   output$linear <- renderPlot({
@@ -27,10 +27,9 @@ function(input, output, session) {
              date >= input$dates[1],
              date <= input$dates[2]) |> 
       group_by(item) |> 
-      ggplot(aes(x=date, y=gross_sales, color = item)) +
+      ggplot(aes(x=date, y=net_sales, color = item)) +
       geom_point() +
       geom_smooth(method = 'lm', se = FALSE)
-    
   })
   
   output$card <- renderPlot({
@@ -41,7 +40,7 @@ function(input, output, session) {
       summarize(`gross revenue` = sum(gross_sales)) |> 
       ggplot(aes(x=card_brand, y=`gross revenue`)) +
       geom_col()
-    
+     
   })
   
 }
