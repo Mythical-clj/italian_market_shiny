@@ -3,9 +3,6 @@
 
 The purpose of this project is to explore the sales trends across the year 2024. 
 
-The data was gathered via the square app [link here] and was cleaned using python. The data 
-used can be found [here].
-
 The first graph allows for the selection of overall sales of each item on the menu,
  comparing different items at the same time. The choices lets you decide whether you want 
  to select either gross sales or net sales, and then net_total and total_collected.
@@ -18,15 +15,15 @@ linear regression model, an ANOVA, or a a written analysis of what the interpret
 p-value means
 
 The trends of only one year is subject to swings from seasonality, especially when coming
-from an outdoor farmer's market. A goal of this project is to incorporate weather data as well into
-the dates to see the impact of weather on sales data. A map of weather patterns over Saturdays and
-Tuesdays only.  
+from an outdoor farmer's market. This project also incorporates rain data s to see the impact of weather on sales data. 
+
+My goals for this project are to allow for the selection and plotting of multiple items at the same time, to allow for the user to see how often items are purchased together, see a description of each item as selected, .  
 
 
+The data was cleaned using python.
 
-
-
-
+Data used includes my friend's (who wishes to remain anonymous) sales data from the [square app](https://squareup.com/us/en/app)
+As well as weather data downloaded from [https://open-meteo.com/en/docs/historical-weather-api]
 
 This is the URL to the deployed shiny app [LINK]
 
