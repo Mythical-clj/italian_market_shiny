@@ -1,40 +1,53 @@
-
-fluidPage(
-  titlePanel("Italian Market"),
-  sidebarLayout(
-    sidebarPanel(
-      tags$style(type='text/css',
-                 ".selectize-dropdown-content{
-                 height: 1000px;
-                 width: 800px;
-                 background-color: #b0c4de;
-                 font-size: 12px; line-height: 12px;
-                }"),
-      selectInput("item", "Choose a food:",
+dashboardPage(
+  header,
+  skin = 'black',
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Food Sales", 
+               tabName = "FoodTab",
+               icon = icon("wheat-awn")),
+      menuItem("Card Payments",
+               tabName = "CardTab",
+               icon = icon("fa-solid fa-dollar-sign")),
+      menuItem('Linear Regression',
+               tabName = 'linear_reg',
+               icon = icon("line-chart"))
+        
+      ),
+      
+      pickerInput("item", "Choose a food:",
                   choices = c('All', unique(full_data$item)), 
                   selected = unique(full_data$item)[1],
                   multiple = TRUE),
-      dateRangeInput("dates", "Choose a date:",
-                     start = '2024-01-01',
-                     end = '2024-12-31')),
-    mainPanel(
-      tabsetPanel(
-        tabPanel('Food sales by date',
-                 fluidRow(
-                   column(
-                     width = 6,
-                     plotOutput("food", 
-                                height = '300px')
-                   ),
-                   column(
-                     width = 6,
-                     plotOutput('linear',
-                                height = '300px')
-                   )
-                 )
-        ),
-        tabPanel('Card Payments', plotOutput('card'))
-      )
+      
+      dateInput("date1", "Choose a start date:",
+                min = '2024-01-02',
+                max = '2024-12-31',
+                value = '2024-01-02',
+                format = 'mm/dd/yy',
+                weekstart = 0,
+                daysofweekdisabled = c(0,1,3,4,5)),
+      tags$style(HTML(".datepicker {z-index:99999 !important;}")),
+      
+      dateInput("date2", "Choose an end date:",
+                min = '2024-01-02',
+                max = '2024-12-31',
+                value = '2024-12-31',
+                format = 'mm/dd/yy',
+                weekstart = 0,
+                daysofweekdisabled = c(0,1,3,4,5))
+    ),
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "FoodTab",
+              plotlyOutput("food", 
+                           height = '300px')),
+      
+      tabItem(tabName = 'linear_reg',
+              plotlyOutput('linear', 
+                           height = '300px')),
+      
+      tabItem(tabName = "CardTab", plotlyOutput('card'))
     )
-   )
   )
+)
