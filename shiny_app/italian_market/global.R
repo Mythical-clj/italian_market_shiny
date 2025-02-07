@@ -59,10 +59,10 @@ product_count <- function(product, date1, date2, market) {
   
   if (product == 'All' & market == 'Both') {
     product_count <- full_data |> 
-    filter(date >= as.Date(date1),
-           date <= as.Date(date2)) |> 
-    summarize(count = sum(qty)) |> 
-    pull(count)
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2)) |> 
+      summarize(count = sum(qty)) |> 
+      pull(count)
   }
   
   if (product != 'All' & market == 'Both') {
@@ -95,41 +95,41 @@ product_count <- function(product, date1, date2, market) {
 
 product_earnings <- function(product, date1, date2, market) {
   
- if (product == 'All' & market == 'Both') {
-   product_earnings <- full_data |> 
-     filter(date >= as.Date(date1),
-            date <= as.Date(date2)) |> 
-     summarize(count = sum(net_sales)) |> 
-     pull(count)
- }
- 
- if (product != 'All' & market == 'Both') {
-   product_earnings <- full_data |> 
-     filter(date >= as.Date(date1),
-            date <= as.Date(date2)) |>
-     filter(item == product) |> 
-     summarize(count = sum(net_sales)) |> 
-     pull(count)
- }
- 
- if  (market != 'Both' & product != 'All') {
-   product_earnings <- full_data |> 
-     filter(date >= as.Date(date1),
-            date <= as.Date(date2)) |>
-     filter(item == product) |> 
-     filter(weekday == market) |> 
-     summarize(count = sum(net_sales)) |> 
-     pull(count)
- }  
- 
- if  (market != 'Both' & product == 'All') {
-   product_earnings <- full_data |> 
-     filter(date >= as.Date(date1),
-            date <= as.Date(date2)) |>
-     filter(weekday == market) |> 
-     summarize(count = sum(net_sales)) |> 
-     pull(count)
- }
+  if (product == 'All' & market == 'Both') {
+    product_earnings <- full_data |> 
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2)) |> 
+      summarize(count = sum(net_sales)) |> 
+      pull(count)
+  }
+  
+  if (product != 'All' & market == 'Both') {
+    product_earnings <- full_data |> 
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2)) |>
+      filter(item == product) |> 
+      summarize(count = sum(net_sales)) |> 
+      pull(count)
+  }
+  
+  if  (market != 'Both' & product != 'All') {
+    product_earnings <- full_data |> 
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2)) |>
+      filter(item == product) |> 
+      filter(weekday == market) |> 
+      summarize(count = sum(net_sales)) |> 
+      pull(count)
+  }  
+  
+  if  (market != 'Both' & product == 'All') {
+    product_earnings <- full_data |> 
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2)) |>
+      filter(weekday == market) |> 
+      summarize(count = sum(net_sales)) |> 
+      pull(count)
+  }
   
   
   product_earnings <- 
@@ -208,25 +208,38 @@ rain_market_plot <- function(product, date1, date2, market) {
 
 poisson_plot <- function(market) {
   
-  poisson_plot <- reactive({
-    
-    week_day <- full_data |> 
-      select(date, weekday) |> 
-      mutate(date = as.character(date))
-    
-    
+  week_day <- full_data |> 
+    select(date, weekday) |> 
+    mutate(date = as.character(date))
+  
+  if(market == 'Both') {
     time_interval <- full_data |> 
       mutate(date_time = paste(full_data$date, 
                                full_data$minute, 
                                sep=' ')) |> 
-      mutate(interval = floor_date(as.POSIXct(date_time), '10 minutes')) |> 
+      mutate(interval = floor_date(as.POSIXct(date_time), '30 minutes')) |> 
       group_by(interval) |>
       count(transaction_id) |>
       summarize(total = sum(n()))  |> 
       separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
       right_join(week_day, by ='date')
+  }
     
-    if(market != 'Both') {
+    if(market == 'Tuesday') {
+      time_interval <- full_data |> 
+        mutate(date_time = paste(full_data$date, 
+                                 full_data$minute, 
+                                 sep=' ')) |> 
+        mutate(interval = floor_date(as.POSIXct(date_time), '30 minutes')) |> 
+        group_by(interval) |>
+        count(transaction_id) |>
+        summarize(total = sum(n()))  |> 
+        separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
+        right_join(week_day, by ='date') |> 
+        filter(weekday == market)
+    }
+    
+    if(market == 'Saturday') {
       time_interval <- full_data |> 
         mutate(date_time = paste(full_data$date, 
                                  full_data$minute, 
@@ -240,21 +253,20 @@ poisson_plot <- function(market) {
         filter(weekday == market)
     }
     
-  })
+    lambda <- mean(time_interval$total)
+    min <- min(time_interval$total)
+    max <- max(time_interval$total)
+    
+    data <- data.frame(x = min:max, 
+                       y = dpois(min:max, lambda = lambda)) 
+    
+    ggplot(data, aes(x = x, y = y)) +
+      geom_bar(stat = "identity", fill = "#008F45") +
+      labs(title = glue("Poisson Distribution (λ = {lambda})"), 
+           x = "Number of Events", 
+           y = "Probability") +
+      theme_bw()
+  }
   
-  lambda <- mean(time_interval$total)
-  min <- min(time_interval$total)
-  max <- max(time_interval$total)
   
-  data <- data.frame(x = min:max, 
-                     y = dpois(min:max, lambda = lambda)) 
   
-  ggplot(data, aes(x = x, y = y)) +
-    geom_bar(stat = "identity", fill = "#008F45") +
-    labs(title = glue("Poisson Distribution (λ = {lambda})"), 
-         x = "Number of Events", 
-         y = "Probability") +
-    theme_bw()
-}
-
-
