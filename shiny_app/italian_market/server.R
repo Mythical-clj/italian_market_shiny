@@ -204,7 +204,7 @@ their inventory sells the best, when their strongest times are, how frequent sal
   })
   
   output$poisson <- renderPlotly({
-    poisson_plot(input$market)
+    poisson_plot(input$date1, input$date2, input$market)
   })
 }
 

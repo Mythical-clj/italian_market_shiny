@@ -123,7 +123,7 @@ dashboardPage(
                        selectInput('market', 'choose a market:',
                                    choices = c('Both', unique(full_data$weekday)))
                 ),
-                column(12, style = "padding: 10px;",
+                column(12, style = "padding: 15px;",
                        plotlyOutput('linear', 
                                     height = '300px'),
                        plotlyOutput('poisson',

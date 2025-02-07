@@ -206,14 +206,14 @@ rain_market_plot <- function(product, date1, date2, market) {
     )
 }
 
-poisson_plot <- function(market) {
+poisson_plot <- function(date1, date2, market) {
   
   week_day <- full_data |> 
     select(date, weekday) |> 
     mutate(date = as.character(date))
   
   if(market == 'Both') {
-    time_interval <- full_data |> 
+    time_interval <- full_data |>
       mutate(date_time = paste(full_data$date, 
                                full_data$minute, 
                                sep=' ')) |> 
@@ -222,7 +222,9 @@ poisson_plot <- function(market) {
       count(transaction_id) |>
       summarize(total = sum(n()))  |> 
       separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-      right_join(week_day, by ='date')
+      right_join(week_day, by ='date') |> 
+      filter(date >= as.Date(date1),
+             date <= as.Date(date2))
   }
     
     if(market == 'Tuesday') {
@@ -235,7 +237,9 @@ poisson_plot <- function(market) {
         count(transaction_id) |>
         summarize(total = sum(n()))  |> 
         separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-        right_join(week_day, by ='date') |> 
+        right_join(week_day, by ='date') |>
+        filter(date >= as.Date(date1),
+               date <= as.Date(date2)) |>
         filter(weekday == market)
     }
     
@@ -244,12 +248,14 @@ poisson_plot <- function(market) {
         mutate(date_time = paste(full_data$date, 
                                  full_data$minute, 
                                  sep=' ')) |> 
-        mutate(interval = floor_date(as.POSIXct(date_time), '10 minutes')) |> 
+        mutate(interval = floor_date(as.POSIXct(date_time), '30 minutes')) |> 
         group_by(interval) |>
         count(transaction_id) |>
         summarize(total = sum(n()))  |> 
         separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-        right_join(week_day, by ='date') |> 
+        right_join(week_day, by ='date') |>
+        filter(date >= as.Date(date1),
+               date <= as.Date(date2)) |>
         filter(weekday == market)
     }
     
@@ -262,7 +268,7 @@ poisson_plot <- function(market) {
     
     ggplot(data, aes(x = x, y = y)) +
       geom_bar(stat = "identity", fill = "#008F45") +
-      labs(title = glue("Poisson Distribution (λ = {lambda})"), 
+      labs(title = glue("Poisson Distribution (λ = {lambda}) for the number of transactions in a 30 minute period"), 
            x = "Number of Events", 
            y = "Probability") +
       theme_bw()
