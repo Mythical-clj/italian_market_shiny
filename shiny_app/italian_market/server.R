@@ -175,7 +175,10 @@ their inventory sells the best, when their strongest times are, how frequent sal
       group_by(item) |> 
       ggplot(aes(x=date, y= net_sales)) +
       geom_point(aes(color=item)) +
-      geom_smooth(method = 'lm', se = FALSE, formula = y ~ log(x)) +
+      geom_smooth(method = 'lm', 
+                  se = FALSE, 
+                  formula = y ~ log(x),
+                  color = '#CA2A36') +
       scale_color_brewer(palette = 'Greens')
   })
   

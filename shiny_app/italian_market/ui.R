@@ -11,7 +11,7 @@ dashboardPage(
                 menuItem('Models',
                          tabName = 'linear_reg',
                          icon = icon("line-chart")),
-                menuItem('Conclusion',
+                menuItem('Findings',
                          tabName = 'rainSales',
                          icon = icon("book"))
                 
