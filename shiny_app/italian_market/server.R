@@ -22,7 +22,7 @@ function(input, output, session) {
         subset(item %in% input$item)
     }
     
-    return(plot_data)
+    return(plot_data) 
   })
   
   histdata <- rnorm(5)
@@ -89,34 +89,34 @@ their inventory sells the best, when their strongest times are, how frequent sal
   
   output$img1 <- renderUI({
     if(input$item == "All"){            
-      img(height = 480, width = 800, src = "all-1.jpg")
+      img(height = 480, width = 900, src = "all-1.jpg")
     }                                        
     else if(input$item == "Pasta"){
-      img(height = 480, width = 800, src = "pasta.jpg")
+      img(height = 480, width = 900, src = "pasta.jpg")
     }
     else if(input$item == "Strawberry Lemonade"){
-      img(height = 480, width = 800, src = "lemonade.jpg")
+      img(height = 480, width = 900, src = "lemonade.jpg")
     }
     else if(input$item == "Wagyu Meatballs"){
-      img(height = 480, width = 800, src = "meatballs.jpg")
+      img(height = 480, width = 900, src = "meatballs.jpg")
     }
     else if(input$item == "Meat Lasagna"){
-      img(height = 480, width = 800, src = "meat-las.jpg")
+      img(height = 480, width = 900, src = "meat-las.jpg")
     }
     else if(input$item == "Other"){
-      img(height = 480, width = 800, src = "green-pasta.jpg")
+      img(height = 480, width = 900, src = "green-pasta.jpg")
     }
     else if(input$item == "Dried Pasta"){
-      img(height = 480, width = 800, src = "other-pasta.jpg")
+      img(height = 480, width = 900, src = "other-pasta.jpg")
     }
     else if(input$item == "1 Ginger Shot (L)"){
-      img(height = 480, width = 800, src = "ginger-shot.jpg")
+      img(height = 480, width = 900, src = "ginger-shot.jpg")
     }
     else if(input$item == "Veggie Lasagna"){
-      img(height = 480, width = 800, src = "veg-las.jpg")
+      img(height = 480, width = 900, src = "veg-las.jpg")
     }
     else{
-      img(height = 480, width = 800, src = "all-2.jpg")
+      img(height = 480, width = 900, src = "all-2.jpg")
     }
   })
   

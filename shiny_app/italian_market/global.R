@@ -222,7 +222,9 @@ poisson_plot <- function(date1, date2, market) {
       count(transaction_id) |>
       summarize(total = sum(n()))  |> 
       separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-      right_join(week_day, by ='date') |> 
+      right_join(week_day, 
+                 by ='date', 
+                 relationship = "many-to-many") |> 
       filter(date >= as.Date(date1),
              date <= as.Date(date2))
   }
@@ -237,7 +239,9 @@ poisson_plot <- function(date1, date2, market) {
         count(transaction_id) |>
         summarize(total = sum(n()))  |> 
         separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-        right_join(week_day, by ='date') |>
+        right_join(week_day, 
+                   by ='date', 
+                   relationship = "many-to-many") |>
         filter(date >= as.Date(date1),
                date <= as.Date(date2)) |>
         filter(weekday == market)
@@ -253,7 +257,9 @@ poisson_plot <- function(date1, date2, market) {
         count(transaction_id) |>
         summarize(total = sum(n()))  |> 
         separate_wider_delim(interval, delim = ' ', names = c('date', 'hour_and_min')) |> 
-        right_join(week_day, by ='date') |>
+        right_join(week_day, 
+                   by ='date', 
+                   relationship = "many-to-many") |>
         filter(date >= as.Date(date1),
                date <= as.Date(date2)) |>
         filter(weekday == market)
@@ -268,7 +274,7 @@ poisson_plot <- function(date1, date2, market) {
     
     ggplot(data, aes(x = x, y = y)) +
       geom_bar(stat = "identity", fill = "#008F45") +
-      labs(title = glue("Poisson Distribution (λ = {lambda}) for the number of transactions in a 30 minute period"), 
+      labs(title = glue("Poisson Distribution (λ = {round(lambda, digits=4)}) for the number of transactions in a 30 minute period"), 
            x = "Number of Events", 
            y = "Probability") +
       theme_bw()
