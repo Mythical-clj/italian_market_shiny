@@ -104,7 +104,7 @@ their inventory sells the best, when their strongest times are, how frequent sal
       img(height = 480, width = 900, src = "meat-las.jpg")
     }
     else if(input$item == "Other"){
-      img(height = 480, width = 900, src = "green-pasta.jpg")
+      img(height = 480, width = 900, src = "focaccia.jpg")
     }
     else if(input$item == "Dried Pasta"){
       img(height = 480, width = 900, src = "other-pasta.jpg")
@@ -115,9 +115,31 @@ their inventory sells the best, when their strongest times are, how frequent sal
     else if(input$item == "Veggie Lasagna"){
       img(height = 480, width = 900, src = "veg-las.jpg")
     }
+    else if(input$item == "Bolognese"){
+      img(height = 480, width = 900, src = "bolognese.jpg")
+    }
+    else if(input$item == "Large Vodka Sauce"){
+      img(height = 480, width = 900, src = "vodka-sauce.jpg")
+    }
+    else if(input$item == "Vodka Sauce"){
+      img(height = 480, width = 900, src = "vodka-sauce.jpg")
+    }
+    else if(input$item == "Butternut Squash Ravioli"){
+      img(height = 480, width = 900, src = "squash-rav.jpg")
+    }
+    else if(input$item == "Wagyu Beef Ravioli"){
+      img(height = 480, width = 900, src = "meat-rav.jpg")
+    }
+    else if(input$item == "Short Rib Ravioli"){
+      img(height = 480, width = 900, src = "meat-rav.jpg")
+    }
     else{
       img(height = 480, width = 900, src = "all-2.jpg")
     }
+  })
+  
+  output$img2 <- renderUI({
+    img(height = 720, width = 1280, src = "findings-slide.jpg")
   })
   
   output$count <- renderValueBox({

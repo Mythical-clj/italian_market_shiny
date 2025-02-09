@@ -185,8 +185,8 @@ dashboardPage(
       ),
       
       tabItem(tabName = 'rainSales',
-              fluidRow(
-                
+              fluidRow(align = 'center',
+                uiOutput('img2')
               )
       )
       
