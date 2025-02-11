@@ -1,0 +1,96 @@
+item1,item2,count
+Pasta,Vodka Sauce,366
+Pasta,Wagyu Meatballs,282
+Vodka Sauce,Wagyu Meatballs,216
+Vodka Sauce,Wagyu Beef Ravioli,153
+Bolognese,Pasta,105
+Pasta,Strawberry Lemonade,104
+Butternut Squash Ravioli,Pasta,84
+Butternut Squash Ravioli,Vodka Sauce,80
+Pasta,Wagyu Beef Ravioli,77
+Wagyu Beef Ravioli,Wagyu Meatballs,62
+Butternut Squash Ravioli,Wagyu Meatballs,62
+Strawberry Lemonade,Vodka Sauce,62
+Bolognese,Wagyu Meatballs,55
+Butternut Squash Ravioli,Wagyu Beef Ravioli,54
+Other,Pasta,54
+Large Vodka Sauce,Pasta,53
+Large Vodka Sauce,Wagyu Meatballs,48
+Other,Wagyu Meatballs,47
+Other,Vodka Sauce,46
+Pasta,Pesto,46
+Strawberry Lemonade,Wagyu Meatballs,44
+Strawberry Lemonade,Wagyu Beef Ravioli,35
+Bolognese,Vodka Sauce,32
+Butternut Squash Ravioli,Other,27
+Butternut Squash Ravioli,Strawberry Lemonade,26
+Meat Lasagna,Wagyu Meatballs,26
+Meat Lasagna,Pasta,24
+Meat Lasagna,Vodka Sauce,21
+Bolognese,Wagyu Beef Ravioli,20
+Pasta,Short Rib Ravioli,20
+Other,Wagyu Beef Ravioli,18
+Short Rib Ravioli,Vodka Sauce,18
+Pesto,Wagyu Meatballs,16
+Pasta,Veggie Lasagna,15
+Pasta,Pasta,15
+Veggie Lasagna,Vodka Sauce,15
+Butternut Squash Ravioli,Pesto,14
+Veggie Lasagna,Wagyu Meatballs,13
+Pesto,Strawberry Lemonade,13
+Meat Lasagna,Other,13
+Bolognese,Strawberry Lemonade,12
+Other,Strawberry Lemonade,11
+Meat Lasagna,Wagyu Beef Ravioli,10
+Large Vodka Sauce,Other,10
+Pesto,Vodka Sauce,10
+Short Rib Ravioli,Wagyu Meatballs,10
+Pesto,Wagyu Beef Ravioli,10
+Meat Lasagna,Veggie Lasagna,9
+Bolognese,Butternut Squash Ravioli,9
+Butternut Squash Ravioli,Short Rib Ravioli,9
+Butternut Squash Ravioli,Large Vodka Sauce,9
+Large Vodka Sauce,Wagyu Beef Ravioli,9
+Butternut Squash Ravioli,Meat Lasagna,8
+Bolognese,Other,7
+Large Vodka Sauce,Vodka Sauce,7
+Meat Lasagna,Strawberry Lemonade,6
+Strawberry Lemonade,Veggie Lasagna,6
+Short Rib Ravioli,Strawberry Lemonade,6
+Butternut Squash Ravioli,Veggie Lasagna,6
+Short Rib Ravioli,Wagyu Beef Ravioli,6
+Veggie Lasagna,Wagyu Beef Ravioli,6
+Wagyu Meatballs,Wagyu Meatballs,6
+Large Vodka Sauce,Meat Lasagna,5
+Large Vodka Sauce,Strawberry Lemonade,5
+Bolognese,Large Vodka Sauce,5
+Bolognese,Short Rib Ravioli,5
+Other,Short Rib Ravioli,4
+Bolognese,Pesto,4
+Other,Pesto,3
+Dried Pasta,Pasta,3
+Bolognese,Meat Lasagna,3
+Other,Other,3
+Wagyu Beef Ravioli,Wagyu Beef Ravioli,2
+Dried Pasta,Other,2
+Meat Lasagna,Pesto,2
+Pesto,Short Rib Ravioli,2
+Large Vodka Sauce,Short Rib Ravioli,2
+Vodka Sauce,Vodka Sauce,2
+Dried Pasta,Vodka Sauce,2
+Butternut Squash Ravioli,Butternut Squash Ravioli,1
+Large Vodka Sauce,Pesto,1
+Half Classic Fett,Wagyu Beef Ravioli,1
+Half Classic Fett,Vodka Sauce,1
+Dried Pasta,Wagyu Meatballs,1
+Pesto,Veggie Lasagna,1
+Large Vodka Sauce,Veggie Lasagna,1
+Gazpacho,Pasta,1
+Meat Lasagna,Short Rib Ravioli,1
+Bolognese,Veggie Lasagna,1
+Pesto,Pesto,1
+1 Ginger Shot (L),Meat Lasagna,1
+Bolognese,Bolognese,1
+Bolognese,Dried Pasta,1
+Half Classic Fett,Pasta,1
+Other,Veggie Lasagna,1
