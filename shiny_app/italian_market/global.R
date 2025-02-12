@@ -314,13 +314,6 @@ poisson_plot <- function(date1, date2, market) {
   
 
 
-
-
-
-# rsconnect::setAccountInfo(name='mythical-clj',
-#                         token='B0CF52BB643C524EF3CC16D553F70508',
-#                        secret='jjGzw//BCmxXiIKwj0/vl9nx0Tbl6T6walGAlhXM')
-
 # rsconnect::deployApp('C:/Users/cavin/Documents/NSS_Projects/R_Studio/pasta_project/italian_market_shiny/shiny_app/italian_market')
 
 # rsconnect::showLogs(appName = "italian_market") # appDir = "C:/Users/cavin/Documents/NSS_Projects/R_Studio/pasta_project/italian_market_shiny/shiny_app/italian_market")
