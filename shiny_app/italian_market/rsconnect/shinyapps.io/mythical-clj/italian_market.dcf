@@ -1,0 +1,12 @@
+name: italian_market
+title: italian_market
+username: mythical-clj
+account: mythical-clj
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13962369
+bundleId: 9785743
+url: https://mythical-clj.shinyapps.io/italian_market/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

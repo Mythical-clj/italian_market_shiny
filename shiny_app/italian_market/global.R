@@ -13,9 +13,18 @@ library(bslib)
 library(data.table)
 library(RColorBrewer)
 
-full_data <- read_parquet('../../../data/full_data.parquet')
+# Reads in my two data sets used. Full_Data has weather and rain data attached
+# while combo_data is the data used to figure out the pairs of products that occur
+# the most frequently together
 
-combo_data <- read_csv('../../../data/combo_df.csv')
+full_data <- read_parquet('data/full_data.parquet')
+# May have to adjust the directory to wherever you store the data 
+combo_data <- read_csv('data/combo_df.csv')
+
+# Fixes full_data as R undoes a lot of time series fixes made in Python
+# Creating a new minute column to allow for a poisson analysis.
+# The filters are to remove all refund transactions, which are marked as negative
+# in the data
 
 full_data <- full_data |> 
   separate(date, c('date', 'hour'), sep = ' ') |> 
@@ -25,6 +34,9 @@ full_data <- full_data |>
   filter(net_total > 0) |> 
   select(-hour)
 
+# Chunk of confusing code that allows for the Italian flag to be taken off of the
+# Wiki page and displayed here. I figured this out before making my www folder so I
+# left it as is. 
 
 header_img <- tags$header(
   style = 'background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg");
@@ -50,10 +62,12 @@ titleWidth = '350')
 header <- header$
   addAttrs(style = "position: floating")$ 
   find(".navbar.navbar-static-top")$ 
-  append(header_img)$ 
+  append(header_img)$
   allTags()
 
-
+# First function to be used, this allows for the calculation of the amount of product
+# purchased at any given time frame or market.
+# Four if statements are used to account for all possible conditions.
 
 product_count <- function(product, date1, date2, market) {
   
@@ -62,7 +76,7 @@ product_count <- function(product, date1, date2, market) {
       filter(date >= as.Date(date1),
              date <= as.Date(date2)) |> 
       summarize(count = sum(qty)) |> 
-      pull(count)
+      pull(count)                       
   }
   
   if (product != 'All' & market == 'Both') {
@@ -92,6 +106,10 @@ product_count <- function(product, date1, date2, market) {
   }  
   return(product_count)
 }
+
+# Second function, this one allows for the calculation of the sum of net sales for 
+# a given time frame for a selected product.
+# Same four if statements are used for conditions.
 
 product_earnings <- function(product, date1, date2, market) {
   
@@ -141,6 +159,9 @@ product_earnings <- function(product, date1, date2, market) {
 }
 
 
+# Third function present is used to count how often two products are purchased 
+# together. Uses combo_data to find pairs.
+
 product_friends <- function(product) {
   data <- combo_data |> 
     filter(item1 == product) |> 
@@ -150,6 +171,11 @@ product_friends <- function(product) {
     head(1)
   
 } 
+
+# First plotting function. This one generates a line plot with three lines representing
+# net sales data, rain in inches, and median temperature for any given time frame
+# and product. This allows for the user to see whether rain or temp have an effect
+# on the sales of the product(s).
 
 rain_market_plot <- function(product, date1, date2, market) {
   
@@ -175,6 +201,8 @@ rain_market_plot <- function(product, date1, date2, market) {
     
     return(full_data)
   })
+  
+  # Actual plot of the function.
   
   plot_data() |> 
     group_by(date) |> 
@@ -205,6 +233,10 @@ rain_market_plot <- function(product, date1, date2, market) {
                          overlaying='y')
     )
 }
+
+# Second plotting function, allows for the user to view a plot of a poisson regression
+# showing the probability that a number of transactions will occur within a 30 minute
+# period of time.
 
 poisson_plot <- function(date1, date2, market) {
   
@@ -274,11 +306,22 @@ poisson_plot <- function(date1, date2, market) {
     
     ggplot(data, aes(x = x, y = y)) +
       geom_bar(stat = "identity", fill = "#008F45") +
-      labs(title = glue("Poisson Distribution (λ = {round(lambda, digits=4)}) for the number of transactions in a 30 minute period"), 
+      labs(title = glue("Poisson Distribution (λ = {round(lambda, digits=3)}) for the number of transactions in a 30 minute period"), 
            x = "Number of Events", 
            y = "Probability") +
       theme_bw()
   }
   
-  
+
+
+
+
+
+# rsconnect::setAccountInfo(name='mythical-clj',
+#                         token='B0CF52BB643C524EF3CC16D553F70508',
+#                        secret='jjGzw//BCmxXiIKwj0/vl9nx0Tbl6T6walGAlhXM')
+
+# rsconnect::deployApp('C:/Users/cavin/Documents/NSS_Projects/R_Studio/pasta_project/italian_market_shiny/shiny_app/italian_market')
+
+# rsconnect::showLogs(appName = "italian_market") # appDir = "C:/Users/cavin/Documents/NSS_Projects/R_Studio/pasta_project/italian_market_shiny/shiny_app/italian_market")
   

@@ -1,5 +1,8 @@
 function(input, output, session) {
   
+  # This plot data is using the reactive that has four if statements and logical 
+  # operators. Alexa helped me realize this is what was needed to make my inputs work
+  
   plot_data <- reactive({
     
     if (input$item == 'All' & input$market == 'Both'){
@@ -25,10 +28,14 @@ function(input, output, session) {
     return(plot_data) 
   })
   
+  # This histdata is a placeholder for triggering the landing page event
+  
   histdata <- rnorm(5)
   
+  # Creates a landing page for the app
+  
   observeEvent(once = TRUE,ignoreNULL = FALSE, ignoreInit = FALSE, eventExpr = histdata, { 
-    # event will be called when histdata changes, which only happens once, when it is initially calculated
+
     showModal(modalDialog(
       title = h1(span("Italian", 
                    style = "color: #008F45;
@@ -57,16 +64,16 @@ their inventory sells the best, when their strongest times are, how frequent sal
         text-align: center;"),
       
       h3(HTML('The data is viewed through 3 Tabs:<br>
-         Summary, Exploration, and Models'), 
+         <b>Summary, Exploration, and Models</b>'), 
          style = "font-family: 'Times New Roman';
          color: #595959;
         text-align: center;"),
       
       p(HTML('Select one of the tabs, and along the top, there are four options to choose from to help sort:<br>
-        "Choose a product" - This allows for the single choice of product offered, or the selection of all at once.<br>
-        "Choose a start date" - This allows for the first day in a date range to be chosen.<br>
-        "Choose an end date" - This allows for the last day in a date range to be chosen. By narrowing these down, we can view monthly and daily trends.<br>
-         "Choose a market" - There are two different markets in the week, one on Saturday, and one on Tuesday. Selecting this allows us to see distinct market trends.'), 
+        <b>"Choose a product"</b> - This allows for the single choice of product offered, or the selection of all at once.<br>
+        <b>"Choose a start date"</b> - This allows for the first day in a date range to be chosen.<br>
+        <b>"Choose an end date"</b> - This allows for the last day in a date range to be chosen. By narrowing these down, we can view monthly and daily trends.<br>
+         <b>"Choose a market"</b> - There are two different markets in the week, one on Saturday, and one on Tuesday. Selecting this allows us to see distinct market trends.'), 
         style = "font-family: 'Times New Roman';
         text-align: center;"),
       
@@ -86,6 +93,8 @@ their inventory sells the best, when their strongest times are, how frequent sal
         text-align: center;")
     ))
   })
+  
+  # These allow for different images to appear on the app deo
   
   output$img1 <- renderUI({
     if(input$item == "All"){            
@@ -177,13 +186,14 @@ their inventory sells the best, when their strongest times are, how frequent sal
     plot_data() |> 
       filter(
         date >= as.Date(input$date1),
-        date <= as.Date(input$date2)) |> 
+        date <= as.Date(input$date2)) |>
       group_by(transaction_id) |> 
-      ggplot(aes(net_sales)) +
+      mutate(qty = round(qty, digits=1)) |>
+      ggplot(aes(qty)) +
       geom_histogram() +
-      labs(title = glue('Total Count of {input$item} by Sales')) +
-      ylab(glue('Total Counts of {input$item}')) +
-      xlab(glue('Sales between {input$date1} and {input$date2}')) +
+      labs(title = glue('Total Count of {input$item} transactions by Quantity')) +
+      ylab(glue('Total Count of {input$item}')) +
+      xlab(glue('Quantity between {input$date1} and {input$date2}')) +
       theme(panel.background = element_blank(), 
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank())
@@ -199,9 +209,10 @@ their inventory sells the best, when their strongest times are, how frequent sal
       geom_point(aes(color=item)) +
       geom_smooth(method = 'lm', 
                   se = FALSE, 
-                  formula = y ~ log(x),
+                  formula = y ~ x,
                   color = '#CA2A36') +
-      scale_color_brewer(palette = 'Greens')
+      scale_color_brewer(palette = 'Greens', n=9) +
+      ylab('Net Sales')
   })
   
   output$card <- renderPlotly({
@@ -212,7 +223,10 @@ their inventory sells the best, when their strongest times are, how frequent sal
       summarize(`gross revenue` = sum(net_sales)) |> 
       ggplot(aes(x=card_brand, y=`gross revenue`, fill=card_entry_methods)) +
       geom_col() +
-      labs(title = 'Types of Payment Taken by Card Type and Entry Method') +
+      labs(title = 'Types of Payment Taken by Card Type and Entry Method', 
+           fill = "Card Entry Methods") +
+      xlab('Card Brands') +
+      ylab('Gross Revenue') +
       scale_fill_manual(values = c('#CA2A36', '#008F45')) +
       scale_y_continuous(labels = scales::dollar) +
       theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
