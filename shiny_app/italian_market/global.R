@@ -209,7 +209,7 @@ rain_market_plot <- function(product, date1, date2, market) {
     summarize(total_sales = sum(net_sales)) |> 
     inner_join(full_data) |> 
     plot_ly(x=~date, 
-            colors = c('#787878', '#CA2A36', '#008F45')) |>
+            colors = c('#787878', 'blue', 'lightblue')) |>
     add_lines(y= ~`rain_sum (inch)`,
               yaxis='y', 
               color='Rain Fall') |> 

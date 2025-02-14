@@ -59,7 +59,7 @@ their inventory sells the best, when their strongest times are, how frequent sal
       style = "font-family: 'Times New Roman';
         text-align: center;"),
       
-      p('We want to know what the data reveals to us about the sales trends. Questions such as top products, highest revenue days, and weather relationships are what we are seeking to answer.', 
+      p(HTML('We want to know what the data reveals to us about the sales trends. Questions such as <b>top products, highest revenue days</b>, and <b>weather relationships</b> are what we are seeking to answer.'), 
         style = "font-family: 'Times New Roman';
         text-align: center;"),
       
